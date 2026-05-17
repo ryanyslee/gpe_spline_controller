@@ -2,8 +2,8 @@
 A real-time, CNN-based bilateral gait-phase estimator and Spline Controller for hip exoskeletons, achieving $R^2 > 0.80$ and $RMSE < 4.0%$ via TensorRT.
 
 ## 🎥 Live Demonstration
-### ▶️ Watch the Real-Time GUI in Action
-
+### ▶️ Click the image below to watch the Spline Controller GUI in action:
+[![Spline Controller GUI Demo](https://img.youtube.com/vi/JjngNyeef_U/maxresdefault.jpg)](https://www.youtube.com/watch?v=JjngNyeef_U)
 
 ## 📌 Overview & System Pipeline
 Traditional Time-Based Estimation (TBE) for robotic gait phase suffers from critical latency and discontinuities, especially during sudden speed transitions. This project solves that by replacing mathematical TBE models with a **data-driven 1D-CNN pipeline** that directly bridges raw sensor telemetry to physical actuation.
