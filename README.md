@@ -1,9 +1,13 @@
 # Real-Time CNN Gait-Phase Estimator & Spline Controller
-A real-time, CNN-based bilateral gait-phase estimator and Spline Controller for hip exoskeletons, achieving $R^2 > 0.80$ and $RMSE < 4.0%$ via TensorRT.
+
+> **A real-time, CNN-based bilateral gait-phase estimator and Spline Controller for hip exoskeletons, achieving $R^2 > 0.80$ and $RMSE < 4.0%$ via TensorRT.**
 
 ## 🎥 Live Demonstration
-### ▶️ Click the image below to watch the Spline Controller GUI in action:
+▶️ Click the image below to watch the Spline Controller GUI in action:
+
 [![Spline Controller GUI Demo](https://img.youtube.com/vi/JjngNyeef_U/maxresdefault.jpg)](https://www.youtube.com/watch?v=JjngNyeef_U)
+
+---
 
 ## 📌 Overview & System Pipeline
 Traditional Time-Based Estimation (TBE) for robotic gait phase suffers from critical latency and discontinuities, especially during sudden speed transitions. This project solves that by replacing mathematical TBE models with a **data-driven 1D-CNN pipeline** that directly bridges raw sensor telemetry to physical actuation.
@@ -18,6 +22,7 @@ $$Gait Phase = \left(\left(\tan^{-1}\left(\frac{y}{x}\right)+2\pi\right)\bmod 2\
 
 **4. Bilateral Mirroring (Data Engineering):** To maximize efficiency, a single "canonical-right" model was trained. During live inference, left-leg sensor channels (e.g., Acc_Y, Gyr_X, Gyr_Z) are negated on the fly to simulate right-leg inputs, allowing one model to power both actuators.
 
+---
 
 ## 📂 Dataset & Training Methodology
 To ensure robust generalization, the models were trained on a diverse dataset comprising biomechanical ground-truth data (GRF and kinematics) captured via a Vicon Motion Cpature system, paired with simultaneous Jetson-logged IMU and encoder telemetry.
@@ -44,6 +49,7 @@ Two distinct types of models were trained to evaluate different aspects of syste
 - **Dataset:** 10 total subjects (randomized split).
 - _Note on impact_: The 0.27s offset does not significantly impact offline validation, as the train/test sets are internally consistent. For online validation, comparing the final 10 gait cycles inherently aligns the data as long as the oscillation frequency remains constant.
 
+---
 
 ## 📊 Key Results (Online & Offline Validation)
 Online metrics were captured in real-time while the exoskeleton actively applied the spline torque assistance profile. _(Note: The subject utilized for the Sync/Unsync online validation was drawn from the validation split)._
@@ -57,6 +63,7 @@ Online metrics were captured in real-time while the exoskeleton actively applied
 
 *\*Online metrics represent the average bilateral (Left + Right leg) performance during active torque assistance.*
 
+---
 
 ## ⚡ Hardware Integration & TensorRT Deployment
 This repository is optimized for embedded hardware (e.g., NVIDIA Jetson) to ensure minimal mechanical latency and a stable **5ms control loop**.
@@ -64,6 +71,7 @@ This repository is optimized for embedded hardware (e.g., NVIDIA Jetson) to ensu
 - **Batch-2 Simultaneous Inference:** Rather than processing each leg sequentially, '''run_spline_controller_batch2.py''' stacks the standard right-leg window and the mirrored left-leg window into a single ```(2, 80, 8)``` tensor. This halves the network inference overhead.
 - **Vicon Synchronization:** Integrated TCp triggers automatically start and stop Vicon Nexus recording to perfectly align exoskeleton telemtry with ground-truth biomechanical data.
 
+---
 
 ## 🎛️ Real-Time Spline GUI
 An interactive PyQt5 interface (```spline_controller_gui.py```) was built to monitor and tune the exoskeleton without recompiling the controller.
@@ -73,6 +81,7 @@ An interactive PyQt5 interface (```spline_controller_gui.py```) was built to mon
 - **On-the-Fly Spline Tuning:** Adjust the parameters of the Cubic Hermite Spline (extension/flexion phases and maximum torque) in real-time.
 - **Automated Data Logging:** Effortlessly records synchronized CSV logs of all experiment states.
 
+---
 
 ## 🚀 How to Run (Quickstart)
 **1. Process Raw Biomechanical Data**
