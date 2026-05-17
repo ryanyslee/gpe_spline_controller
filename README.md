@@ -38,7 +38,8 @@ Two distinct types of models were trained to evaluate different aspects of syste
 
 **2. Hardware Synchronization Models (Sync vs. Unsync)**
 - **The Context:** During data collection, the Vicon system triggered approximately 0.27 seconds earlier than the Jetson data logger.
-- **The Models:** *The **Sync** dataset explicity accounts for and corrects this 0.27s hardware delay.
+- **The Models:**
+    - The **Sync** dataset explicity accounts for and corrects this 0.27s hardware delay.
     - The **Unsync** dataset trains on the raw, unshifted timestamps.
 - **Dataset:** 10 total subjects (randomized split).
 - _Note on impact_: The 0.27s offset does not significantly impact offline validation, as the train/test sets are internally consistent. For online validation, comparing the final 10 gait cycles inherently aligns the data as long as the oscillation frequency remains constant.
