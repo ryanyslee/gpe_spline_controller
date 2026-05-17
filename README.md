@@ -7,8 +7,11 @@ A real-time, CNN-based bilateral gait-phase estimator and Spline Controller for 
 
 ## 📌 Overview & System Pipeline
 Traditional Time-Based Estimation (TBE) for robotic gait phase suffers from critical latency and discontinuities, especially during sudden speed transitions. This project solves that by replacing mathematical TBE models with a **data-driven 1D-CNN pipeline** that directly bridges raw sensor telemetry to physical actuation.
+
 **1. Input Architecture:** Extracts features from an 80-step time-window at 100Hz across 8 channels (IMU Kinematics + Motor Encoder Position/Velocity).
+
 **2. CNN Topology:** Utilizes a local kernel (size 20) for short-range temporal features, followed by a global kernel (size 61) for stride-level phase estimation.
+
 **3. Cartesian Conversion:** The network outputs continuous Cartesian coordinates $(x, y)$, avoiding the $0 \rightarrow 100\%$ wrap-around discontinuity. This is converted to a continuous percentage via:
 
 $$Gait Phase = \left(\left(\tan^{-1}\left(\frac{y}{x}\right)+2\pi\right)\bmod 2\pi\right)\times\frac{100}{2\pi}$$
